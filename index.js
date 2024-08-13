@@ -15,7 +15,7 @@ app.use(router,
     express.urlencoded({
     extended: true
 }))
-
+// 
 router.use(bodyParser.json())
 //endpoint
 router.get('^/$|/eShop', (req, res) => {
@@ -63,7 +63,6 @@ router.get('/users/:id', (req, res) => {
         })
     }
 })
-
 router.post('/register', bodyParser.json(), async (req, res) =>{
     try {
         let data = req.body
@@ -96,7 +95,6 @@ router.post('/register', bodyParser.json(), async (req, res) =>{
 
     }
 })
-
 router.patch('/user/:id', async (req, res) => {
     try {
         let data = req.body
@@ -122,7 +120,6 @@ router.patch('/user/:id', async (req, res) => {
         })
     }
 })
-
 router.delete('/user/:id', (req, res) => {
     try {
         const strQry = `
@@ -143,12 +140,11 @@ router.delete('/user/:id', (req, res) => {
         })
     }
 })
-
 router.post('/login', (req, res) => {
     try {
         const { emailAdd, pwd } = req.body
         const strQry = `
-        SELECT userID, firstName, lastName, age, emailAdd, pwd
+        SELECT userID, firstName, lastName, age, emailAdd, pwd, userRole, profileURL
         FROM Users
         WHERE emailAdd = '${emailAdd}';
         `
@@ -191,14 +187,12 @@ router.post('/login', (req, res) => {
         })
     }
 })
-
 router.get('*', (req, res) => {
     res.json({
         status: 404,
         msg: 'Resource not found'
     })
 })
-
-app.listen(port, () =>{
+app.listen(port, () => {
     console.log(`Server is running on ${port}`);
 })
