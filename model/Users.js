@@ -13,7 +13,7 @@ class Users {
                 if(err) throw new Error('Unable to fetch user')
                     res.json({
                         status: res.statusCode,
-                        results: results[0]
+                        results
                     })
             })
         } catch(e) {
