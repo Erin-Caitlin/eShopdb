@@ -14,10 +14,10 @@ userRouter.get('/:id', (req, res) => {
 userRouter.post('/register', (req, res) => {
     users.registerUser(req, res)
 })
-userRouter.patch('/user/:id', (req, res) => {
+userRouter.patch('/:id', (req, res) => {
     users.updateUser(req, res)
 })
-userRouter.delete('/user/:id', (req, res) => {
+userRouter.delete('/:id', (req, res) => {
     users.deleteUser(req, res)
 })
 userRouter.post('/login', (req, res) => {
