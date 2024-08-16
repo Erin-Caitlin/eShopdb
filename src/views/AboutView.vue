@@ -1,5 +1,13 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <h2 class="display-2">About</h2>
+    </div>
   </div>
 </template>
+<script>
+export default {
+}
+</script>
+<style>
+</style>
