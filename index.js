@@ -187,6 +187,125 @@ router.post('/login', (req, res) => {
         })
     }
 })
+router.get('/products', (req, res) => {
+    try {
+        const strQry = `
+        SELECT productID, prodName, category, prodDescription, prodURL, amount
+        FROM Products;
+        `
+        db.query(strQry, (err, results) => {
+            if(err) throw new Error('Unable to fetch product')
+                res.json({
+                    status: res.statusCode,
+                    results
+                })
+        })
+    } catch(e) {
+        res.json({
+            status:404,
+            msg: e.message
+        })
+    }
+})
+router.get('/product/:id', (req, res) => {
+    try {
+        const strQry = `
+        SELECT productID, prodName, category, prodDescription, prodURL, amount
+        FROM Products
+        WHERE productID = ${req.params.id};
+        `
+        db.query(strQry, (err, results) => {
+            if(err) throw new Error('Unable to fetch products')
+                res.json({
+                    status: res.statusCode,
+                    results: results[0]
+                })
+        })
+    } catch(e) {
+        res.json({
+            status:404,
+            msg: e.message
+        })
+    }
+})
+router.post('/addProduct', bodyParser.json(), (req, res) =>{
+    try {
+        let prodData = req.body
+        let product = {
+            productID: prodData.productID,
+            prodName: prodData.prodName,
+            category: prodData.category,
+            prodDescription: prodData.prodDescription,
+            prodURL: prodData.prodURL,
+            amount: prodData.amount
+        }
+        let strQry = `
+        INSERT INTO Products
+        SET ?;
+        `
+        db.query(strQry, [prodData], (err) => {
+            if (err) {
+                res.json({
+                    status: res.statusCode,
+                    msg: 'This email has already been taken'
+                })
+            } else {
+                const token = createToken(product)
+                res.json({
+                    token,
+                    msg: 'Product has been added successfully.'
+                })
+            }
+        })
+    } catch(e) {
+        res.json({
+            status:404,
+            msg: e.message
+        })
+    }
+})
+router.patch('/product/:id', (req, res) => {
+    try {
+        let prodData = req.body
+        const strQry = `
+        UPDATE Products
+        SET ?
+        WHERE productID = ${req.params.id}
+        `
+        db.query(strQry, [prodData], (err) => {
+            if (err) throw new Error('Unable to update a product')
+                res.json({
+                    status: res.statusCode,
+                    msg: 'The product record was updated'
+                })
+        })
+    } catch (e) {
+        res.json({
+            status: 400,
+            msg: e.message
+        })
+    }
+})
+router.delete('/product/:id', (req, res) => {
+    try {
+        const strQry = `
+        DELETE FROM Products
+        WHERE productID = ${req.params.id};
+        `
+        db.query(strQry, (err) => {
+            if(err) throw new Error('To delete a product, please review your delete query')
+                res.json({
+                    status: res.statusCode,
+                    msg: 'A product\'s information was removed'
+                })
+        })
+    } catch (e) {
+        res.json({
+            status: 404,
+            msg: e.message
+        })
+    }
+})
 router.get('*', (req, res) => {
     res.json({
         status: 404,
