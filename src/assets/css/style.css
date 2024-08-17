@@ -28,3 +28,16 @@
   nav a.router-link-exact-active {
     color: #42b983;
   }
+
+/* logo */
+img[alt='logo'] {
+    width: 5rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: auto minmax();
+}
