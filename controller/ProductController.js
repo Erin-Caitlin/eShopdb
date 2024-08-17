@@ -1,19 +1,19 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import { products } from '../model/index.js'
-import { verifyAToken } from '../middleware/AuthenticateUser.js'
+// import { verifyAToken } from '../middleware/AuthenticateUser.js'
 
 const productRouter = express.Router()
 
 productRouter.use(bodyParser.json())
 
-productRouter.get('/', verifyAToken, (req, res) => {
+productRouter.get('/', (req, res) => {
     products.fetchProducts(req, res)
 })
 productRouter.get('/recent', (req, res) => {
     products.recentProducts(req, res)
 })
-productRouter.get('/:id', verifyAToken, (req, res) => {
+productRouter.get('/:id',  (req, res) => {
     products.fetchProduct(req, res)
 })
 productRouter.post('/add', (req, res) => {
